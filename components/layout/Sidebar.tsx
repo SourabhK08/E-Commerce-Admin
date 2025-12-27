@@ -9,7 +9,6 @@ type SidebarProps = {
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   return (
     <>
-      {/* Overlay (mobile) */}
       {isOpen && (
         <div
           onClick={onClose}
@@ -36,11 +35,21 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </button>
         </div>
 
-        <nav className="space-y-3 text-sm flex flex-col ">
-          <Link href="/dashboard">Dashboard</Link>
-          <Link href="/products">Products</Link>
-          <Link href="/orders">Orders</Link>
-          <Link href="/users">Users</Link>
+        <nav className="space-y-3 text-md flex flex-col">
+          <Link
+            href="/dashboard"
+            className="hover:text-gray-500 hover:text-opacity-90"
+          >
+            Dashboard
+          </Link>
+          <Link
+            href="/dashboard/products"
+            className="hover:text-gray-500 hover:text-opacity-90"
+          >
+            Products
+          </Link>
+          {/* <Link href="/dashboard/orders">Orders</Link>
+          <Link href="/dashboard/users">Users</Link> */}
         </nav>
       </aside>
     </>

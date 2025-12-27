@@ -21,6 +21,8 @@ export default function DashboardLayout({
     }
   }, [isAuthenticated, router]);
 
+  if(!isAuthenticated) return null
+
   return (
     <div className="min-h-screen flex">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
