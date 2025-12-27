@@ -43,7 +43,7 @@ const confirmDelete = (onConfirm: () => void) => {
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
-  console.log("products--->>>",products)
+  console.log("products--->>>", products);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -115,7 +115,7 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="relative w-full bg-white dark:bg-black overflow-x-hidden ">
       <div className="flex items-center gap-4">
         <div className="relative flex-1">
           <input
@@ -123,7 +123,7 @@ export default function ProductsPage() {
             placeholder="Search by name or category"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full p-2 pr-10 border rounded bg-gray-200 dark:bg-gray-800 dark:border-gray-600"
+            className="w-full p-2 pr-10 border rounded bg-gray-200 dark:bg-gray-800 dark:border-gray-600 focus:outline-none "
           />
           <Search
             size={20}
@@ -136,13 +136,13 @@ export default function ProductsPage() {
             setSelectedProduct(null);
             setDrawerOpen(true);
           }}
-          className="px-4 py-2 bg-black dark:bg-gray-800 border dark:border-gray-600 dark:hover:border dark:hover:border-gray-100 text-white rounded whitespace-nowrap flex items-center gap-2 "
+          className="px-4 py-2 bg-black dark:bg-gray-800 border dark:border-gray-600 dark:hover:border dark:hover:border-gray-100 text-white rounded whitespace-nowrap flex items-center gap-2 hover:bg-transparent hover:text-black border-black dark:hover:text-white "
         >
           <Plus size={18} /> Add Product
         </button>
       </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-[1000px] w-full border text-sm dark:border-gray-600">
+      <div className="relative w-full mt-4 overflow-x-auto bg-white dark:bg-black">
+        <table className="w-full min-w-[700px] md:min-w-[1000px] border text-sm dark:border-gray-600">
           <thead className="bg-gray-100 dark:bg-gray-800">
             <tr>
               <th className="p-2 text-left">ID</th>

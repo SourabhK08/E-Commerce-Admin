@@ -1,6 +1,6 @@
 "use client";
 
-import { X } from "lucide-react";
+import { Pencil, Plus, X } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -159,9 +159,17 @@ export default function ProductDrawer({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-black text-white py-2 rounded"
+              className="w-full bg-black dark:bg-gray-800 text-white py-2 rounded border dark:border-gray-600 dark:hover:border dark:hover:border-gray-100 hover:bg-transparent hover:text-black border-black dark:hover:text-white flex items-center justify-center gap-2"
             >
-              {isSubmitting ? "Saving..." : "Save"}
+              {mode === "add" ? <Plus size={18} /> : <Pencil size={18} />}
+
+              {isSubmitting
+                ? mode === "add"
+                  ? "Adding..."
+                  : "Updating..."
+                : mode === "add"
+                ? "Add"
+                : "Update"}
             </button>
           )}
         </form>

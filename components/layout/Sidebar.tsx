@@ -19,12 +19,12 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       <aside
         className={`
           fixed md:static z-50
-          top-0 left-0 h-full w-64
+          top-0 left-0 h-full md:h-screen w-64
           bg-gray-100 dark:bg-gray-900 p-4
           transform transition-transform duration-300
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
           md:translate-x-0
-          min-h-screen
+          overflow-y-auto
         `}
       >
         <div className="flex items-center justify-between mb-6">
@@ -39,17 +39,18 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <Link
             href="/dashboard"
             className="hover:text-gray-500 hover:text-opacity-90"
+            onClick={onClose}
           >
             Dashboard
           </Link>
+
           <Link
             href="/dashboard/products"
             className="hover:text-gray-500 hover:text-opacity-90"
+            onClick={onClose}
           >
             Products
           </Link>
-          {/* <Link href="/dashboard/orders">Orders</Link>
-          <Link href="/dashboard/users">Users</Link> */}
         </nav>
       </aside>
     </>

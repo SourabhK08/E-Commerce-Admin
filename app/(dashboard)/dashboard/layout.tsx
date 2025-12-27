@@ -24,12 +24,12 @@ export default function DashboardLayout({
   if(!isAuthenticated) return null
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex overflow-hidden">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col min-w-0">
         <Header onMenuClick={() => setSidebarOpen(true)} />
-        <main className="p-6">{children}</main>
+        <main className="p-6 bg-white dark:bg-black flex-1 overflow-x-auto">{children}</main>
       </div>
     </div>
   );
