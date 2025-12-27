@@ -2,7 +2,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Search, Eye, Pencil, Trash2, Plus } from "lucide-react";
+import { Search, Eye, Pencil, Trash2, Plus, Upload } from "lucide-react";
 import ProductDrawer, {
   Product,
   DrawerMode,
@@ -89,7 +89,6 @@ export default function ProductsPage() {
     setCurrentPage(1);
   }, [search]);
 
-
   if (loading) return <p>Loading products...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
 
@@ -114,33 +113,73 @@ export default function ProductsPage() {
     });
   };
 
+  const exportToCSV = (rows: Product[]) => {
+    if (!rows.length) {
+      toast.info("No products to export");
+      return;
+    }
+
+    const headers = ["ID", "Name", "Price", "Stock", "Category"];
+
+    const csvContent = [
+      headers.join(","),
+
+      ...rows.map((p) =>
+        [p.id, `"${p.title}"`, p.price, p.stock, p.category].join(",")
+      ),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "products.csv";
+    link.click();
+
+    URL.revokeObjectURL(url);
+
+    toast.success("Products exported to CSV");
+  };
+
   return (
     <div className="relative w-full bg-white dark:bg-black overflow-x-hidden ">
-      <div className="flex items-center gap-4">
-        <div className="relative flex-1">
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-4">
+        <div className="relative w-full md:flex-1">
           <input
             type="text"
             placeholder="Search by name or category"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full p-2 pr-10 border rounded bg-gray-200 dark:bg-gray-800 dark:border-gray-600 focus:outline-none "
+            className="w-full p-2 pr-10 border rounded bg-gray-200 dark:bg-gray-800 dark:border-gray-600 focus:outline-none"
           />
           <Search
             size={20}
             className="absolute right-3 top-2.5 text-gray-500"
           />
         </div>
-        <button
-          onClick={() => {
-            setDrawerMode("add");
-            setSelectedProduct(null);
-            setDrawerOpen(true);
-          }}
-          className="px-4 py-2 bg-black dark:bg-gray-800 border dark:border-gray-600 dark:hover:border dark:hover:border-gray-100 text-white rounded whitespace-nowrap flex items-center gap-2 hover:bg-transparent hover:text-black border-black dark:hover:text-white "
-        >
-          <Plus size={18} /> Add Product
-        </button>
+
+        <div className="grid grid-cols-2 gap-2 md:flex md:gap-4">
+          <button
+            onClick={() => {
+              setDrawerMode("add");
+              setSelectedProduct(null);
+              setDrawerOpen(true);
+            }}
+            className="px-4 py-2 bg-black dark:bg-gray-800 border dark:border-gray-600 text-white rounded flex items-center justify-center gap-2 hover:bg-transparent hover:text-black dark:hover:text-white hover:border-black dark:hover:border-gray-100"
+          >
+            <Plus size={18} /> Add
+          </button>
+
+          <button
+            onClick={() => exportToCSV(filteredProducts)}
+            className="px-4 py-2 bg-black dark:bg-gray-800 border dark:border-gray-600 text-white rounded flex items-center justify-center gap-2 hover:bg-transparent hover:text-black dark:hover:text-white hover:border-black dark:hover:border-gray-100"
+          >
+            <Upload size={18} /> Export
+          </button>
+        </div>
       </div>
+
       <div className="relative w-full mt-4 overflow-x-auto bg-white dark:bg-black">
         <table className="w-full min-w-[700px] md:min-w-[1000px] border text-sm dark:border-gray-600">
           <thead className="bg-gray-100 dark:bg-gray-800">
