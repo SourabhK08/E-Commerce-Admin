@@ -20,6 +20,7 @@ export const AuthProvider = ({
 
   useEffect(() => {
     const storedToken = getCookie("auth_token");
+    console.log("Stored token:", storedToken);
     if (storedToken) {
       setToken(storedToken);
     }

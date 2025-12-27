@@ -11,8 +11,8 @@ export type DrawerMode = "add" | "edit" | "view";
 export type Product = {
   id?: number;
   title: string;
-  price: number;
-  stock: number;
+  price: number | null;
+  stock: number | null;
   category: string;
 };
 
@@ -38,18 +38,22 @@ export default function ProductDrawer({
     formState: { errors, isSubmitting },
   } = useForm<Product>();
 
-  console.log("errors",errors)
+  console.log("errors", errors);
 
   useEffect(() => {
-    if (product) reset(product);
-    else
+    if ((mode === "edit" || mode === "view") && product) {
+      reset(product);
+    }
+
+    if (mode === "add") {
       reset({
         title: "",
-        price: undefined,
-        stock: undefined,
+        price: null,
+        stock: null,
         category: "",
       });
-  }, [product, reset]);
+    }
+  }, [product, mode, reset]);
 
   if (!open) return null;
 
@@ -71,12 +75,15 @@ export default function ProductDrawer({
           stock: data.stock,
           category: data.category,
         });
+        toast.success("Product updated successfully");
       }
-      toast.success("Product updated successfully");
+
       onSuccess(res!.data);
       onClose();
     } catch {
       toast.error("Action failed");
+    } finally {
+      reset();
     }
   };
 
@@ -144,7 +151,7 @@ export default function ProductDrawer({
               className="w-full p-2 border rounded dark:bg-gray-800"
               placeholder="Enter category"
             />
-             {errors.category && (
+            {errors.category && (
               <p className="text-red-500 text-sm">Category is required</p>
             )}
           </div>
