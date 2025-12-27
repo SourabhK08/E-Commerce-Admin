@@ -10,6 +10,11 @@ type DashboardStats = {
   monthlyRevenue: number;
 };
 
+type Product = {
+  price: number;
+};
+
+
 export default function DashboardPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   console.log("stats-->", stats);
@@ -29,7 +34,7 @@ export default function DashboardPage() {
 
         const todayOrders = Math.floor(Math.random() * 30);
         const monthlyRevenue = data.products
-          .reduce((sum: number, p: any) => sum + p.price, 0)
+          .reduce((sum: number, p: Product) => sum + p.price, 0)
           .toFixed(2);
 
         setStats({
@@ -38,6 +43,7 @@ export default function DashboardPage() {
           monthlyRevenue: Number(monthlyRevenue),
         });
       } catch (err) {
+        console.error("Error fetching dashboard stats:", err);
         setError("Failed to load dashboard stats");
       } finally {
         setLoading(false);

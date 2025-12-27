@@ -6,6 +6,11 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 
+type LoginData = {
+  username: string;
+  password: string;
+};
+
 export default function LoginPage() {
   const { isAuthenticated, login } = useAuth();
   const router = useRouter();
@@ -14,7 +19,7 @@ export default function LoginPage() {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm();
+  } = useForm<LoginData>();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -24,7 +29,7 @@ export default function LoginPage() {
 
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (data: any) => {
+  const handleLogin = async (data: LoginData) => {
     console.log("Login data:", data);
     setLoading(true);
 
@@ -37,7 +42,8 @@ export default function LoginPage() {
       const token = res.data.accessToken;
       login(token);
       router.push("/dashboard");
-    } catch (err: any) {
+    } catch (err: unknown) {
+      console.error("Login error:", err);
       setError("username", { type: "manual", message: "Invalid credentials" });
       setError("password", { type: "manual", message: "Invalid credentials" });
     } finally {
