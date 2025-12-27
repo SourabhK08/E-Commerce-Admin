@@ -90,8 +90,7 @@ export default function ProductDrawer({
   return (
     <>
       <div className="fixed inset-0 bg-black/40 z-40" onClick={onClose} />
-
-      <div className="fixed right-0 top-0 h-full w-full sm:w-[420px] bg-white dark:bg-gray-900 z-50">
+      <div className="fixed right-0 top-0 h-screen w-[25%] max-w-md bg-white dark:bg-gray-900 z-50">
         <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
           <h2 className="text-lg font-semibold capitalize">{mode} Product</h2>
           <button onClick={onClose}>
